@@ -91,11 +91,10 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
             onSubmit={form.onSubmit}
             action={formAction}
           >
-        
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <ImageInput
-                 name={fields.image.name}
-                 error={fields.image.errors}
+                name={fields.image.name}
+                error={fields.image.errors}
               />
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -348,10 +347,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="file">المرفقات</Label>
-                <Input
-                  type="file"
-                  name={fields.file.name}
-                />
+                <Input type="file" name={fields.file.name} />
                 <div className="text-[12px] text-destructive">
                   {fields.file.errors}
                 </div>
