@@ -38,6 +38,7 @@ import {
   MaritalStatus,
 } from "@/lib/constants";
 import ImageInput from "../common/ImageInput";
+import FileInput from "../common/FileInput";
 interface AddEmployeeProps {
   onSuccess: () => void;
 }
@@ -332,11 +333,11 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
                 </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="file">المرفقات</Label>
-                <Input type="file" name={fields.file.name} />
-                <div className="text-[12px] text-destructive">
-                  {fields.file.errors}
-                </div>
+              <FileInput
+                  label="المرفقات"
+                  name={fields.file.name}
+                  error={fields.file.errors}
+                />
               </div>
             </div>
             <DialogFooter>

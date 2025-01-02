@@ -14,7 +14,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { Eye } from "lucide-react";
 import { Employee } from "@/lib/types";
-import { avatar } from "@/lib/constants";
+import {
+  avatar,
+  getEducationGrade,
+  getEmployeeType,
+  getGender,
+} from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -30,7 +35,7 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-1">
-          <Eye className="h-4 w-4 text-green-500" />
+          <Eye className="h-4 w-4 text-zinc-900" />
           عرض
         </Button>
       </DialogTrigger>
@@ -43,7 +48,7 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
             <Image
               src={row.image ? `${baseFileUrl}/${row.image}` : avatar}
               alt="avatar"
-              className="h-18 w-18 object-cover rounded-md"
+              className="h-18 w-18 rounded-md object-cover"
               width={100}
               height={100}
             />
@@ -61,7 +66,7 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
 
             <div className="flex flex-col">
               <Label className="mb-1">الجنس</Label>
-              <p className="rounded-md border p-2">{row.gender}</p>
+              <p className="rounded-md border p-2">{getGender(row.gender)}</p>
             </div>
 
             <div className="flex flex-col">
@@ -97,7 +102,9 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
             </div>
             <div className="flex flex-col">
               <Label className="mb-1">الشهادة</Label>
-              <p className="rounded-md border p-2">{row.education_grade}</p>
+              <p className="rounded-md border p-2">
+                {getEducationGrade(row.education_grade)}
+              </p>
             </div>
 
             <div className="flex flex-col">
@@ -111,18 +118,22 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
 
             <div className="flex flex-col">
               <Label className="mb-1">نوع التوضيف</Label>
-              <p className="rounded-md border p-2">{row.type}</p>
+              <p className="rounded-md border p-2">
+                {getEmployeeType(row.type)}
+              </p>
             </div>
 
             <div className="flex flex-col">
               <Label className="mb-1">الراتب</Label>
               <p className="rounded-md border p-2">{row.salary}</p>
             </div>
-          
+
             <div className="flex">
               <Link
                 href={row.file ? `${baseFileUrl}/${row.file}` : "#"}
-                className="rounded-md p-2 text-blue-600 hover:text-blue-400 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md p-2 text-zinc-900 underline hover:text-zinc-700"
               >
                 المرفقات
               </Link>

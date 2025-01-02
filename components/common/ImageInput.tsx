@@ -1,6 +1,8 @@
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 interface ImageUploaderProps {
   register?: UseFormRegisterReturn;
@@ -56,30 +58,33 @@ const ImageInput: React.FC<ImageUploaderProps> = ({
           style={{ backgroundImage: `url('${preview}')` }}
         >
           <div className="absolute bottom-0 left-0 right-0 flex w-full items-center justify-between p-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={handleEdit}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-200 transition duration-200 hover:bg-gray-300"
+              className="h-8 w-8 rounded-md bg-gray-200 hover:bg-gray-300"
             >
               <Pencil size={16} />
-            </button>
+            </Button>
 
             {preview !== placeholder && (
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={handleClear}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-200 transition duration-200 hover:bg-gray-300"
+                className="h-8 w-8 rounded-md bg-gray-200 hover:bg-gray-300"
               >
                 <Trash2 size={16} />
-              </button>
+              </Button>
             )}
           </div>
         </div>
       </div>
-      <input
+      <Input
         id="image-input"
         type="file"
-       
         className="hidden"
         key={key}
         name={name}

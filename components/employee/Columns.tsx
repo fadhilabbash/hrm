@@ -9,7 +9,8 @@ import DeleteAlertDialog from "@/components/common/DeleteAlertDialog";
 import { deleteEmployee } from "@/services/actions/employees.actions";
 import { ErrorToast, SuccessToast } from "../common/Notification";
 import Image from "next/image";
-import { avatar, EmploymentType } from "@/lib/constants";
+import { avatar, EmploymentType, getEmployeeType } from "@/lib/constants";
+import Link from "next/link";
 // Extend ColumnMeta to include 'displayName'
 declare module "@tanstack/react-table" {
   interface ColumnMeta<TData, TValue> {
@@ -60,10 +61,7 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
     header: "نوع التوظيف",
     meta: { displayName: "نوع التوظيف" },
     cell: ({ row }) => {
-      const employmentType = EmploymentType.find(
-        (type) => type.value === row.original.type,
-      );
-      return employmentType ? employmentType.label : "غير معروف";
+      return getEmployeeType(row.original.type); 
     },
   },
   {
@@ -79,10 +77,33 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
         <Image
           src={imageUrl}
           alt="avatar"
-          className="h-12 w-12 rounded-full object-cover"
+          className="h-12 w-12 rounded-md object-cover"
           width={100}
           height={100}
         />
+      );
+    },
+  },
+  {
+    accessorKey: "file",
+    header: "الملف",
+    meta: { displayName: "الملف" },
+    cell: ({ row }) => {
+      const fileUrl = row.original.file
+        ? `${baseFileUrl}/${row.original.file}`
+        : null;
+  
+      return fileUrl ? (
+        <Link
+        href={fileUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="rounded-md p-2 text-zinc-900 underline hover:text-zinc-700"
+      >
+        المرفقات
+      </Link>
+      ) : (
+        <span className="text-gray-400">لا يوجد ملف</span>
       );
     },
   },
@@ -100,7 +121,7 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
           {/* Delete Button */}
 
           <DeleteAlertDialog
-            icon={<Trash2 className="h-4 w-4 text-destructive" />}
+            icon={<Trash2 className="h-4 w-4 text-zinc-900" />}
             title="تاكيد الحذف"
             description="هل أنت متأكد أنك تريد الحذف؟ هذا الأمر غير قابل للتراجع."
             onConfirm={async () => {

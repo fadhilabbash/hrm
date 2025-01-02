@@ -40,6 +40,7 @@ import {
   MaritalStatus,
 } from "@/lib/constants";
 import ImageInput from "../common/ImageInput";
+import FileInput from "../common/FileInput";
 
 interface EditEmployeeProps {
   row: Employee;
@@ -76,7 +77,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-1">
-          <Edit className="h-4 w-4 text-blue-500" />
+          <Edit className="h-4 w-4 text-zinc-900" />
           تعديل
         </Button>
       </DialogTrigger>
@@ -100,8 +101,8 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
               <ImageInput
                 name={fields.image.name}
                 error={fields.image.errors}
-                initialImage={row.image? `${baseFileUrl}/${row.image}`
-                  : avatar
+                initialImage={
+                  row.image ? `${baseFileUrl}/${row.image}` : avatar
                 }
               />
               <div className="text-[12px] text-destructive">
@@ -362,11 +363,14 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
                 </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="file">المرفقات</Label>
-                <Input type="file" id="file" name={fields.file.name} />
-                <div className="text-[12px] text-destructive">
-                  {fields.file.errors}
-                </div>
+                <FileInput
+                  label="المرفقات"
+                  name={fields.file.name}
+                  error={fields.file.errors}
+                  initialFileUrl={row.file
+                    ? `${baseFileUrl}/${row.file}`
+                    : ""}
+                />
               </div>
             </div>
 
