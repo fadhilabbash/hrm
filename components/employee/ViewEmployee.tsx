@@ -48,7 +48,7 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
             <Image
               src={row.image ? `${baseFileUrl}/${row.image}` : avatar}
               alt="avatar"
-              className="h-18 w-18 rounded-md object-cover"
+              className="h-18 w-18 rounded-md object-cover border-2"
               width={100}
               height={100}
             />

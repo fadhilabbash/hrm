@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Folder, Home, Inbox, Search, Settings, Users } from "lucide-react";
 
 import {
   Sidebar,
@@ -16,9 +16,19 @@ import {
 // Menu items.
 const items = [
   {
-    title: "الموضفين",
-    url: "/employees",
+    title: "المسميات الوظيفية",
+    url: "",
     icon: Home,
+  },
+  {
+    title: "الاقسام",
+    url: "",
+    icon: Folder, 
+  },
+  {
+    title: "الموظفين",
+    url: "/employees",
+    icon: Users,
   },
   {
     title: "الاجازات",
@@ -31,19 +41,19 @@ const items = [
     icon: Calendar,
   },
   {
-    title: "الحظور والانصراف",
+    title: "الحضور والانصراف",
     url: "#",
     icon: Search,
   },
   {
     title: "المستخدمين",
     url: "users",
-    icon: Settings,
+    icon: Users,
   },
   {
     title: "الاعدادات",
     url: "#",
-    icon: Settings,
+    icon: Settings, 
   },
 ];
 
