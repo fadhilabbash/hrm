@@ -39,7 +39,7 @@ import {
 } from "@/lib/constants";
 import ImageInput from "../common/ImageInput";
 interface AddEmployeeProps {
-  onSuccess?: (newEmployee: Employee) => void;
+  onSuccess: () => void;
 }
 const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
   const [lastResult, formAction, isPending] = useActionState(
@@ -60,9 +60,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
     if (lastResult?.type === "success") {
       setOpen(false);
       SuccessToast(lastResult.message || ".تمت الاضافة بنجاح");
-      if (onSuccess && lastResult.data) {
-        onSuccess(lastResult.data as Employee); // Ensure type safety
-      }
+        onSuccess(); 
     }
     if (lastResult?.type === "error") {
       ErrorToast(lastResult.message || ".حدث خطأ أثناء الاضافة");
@@ -81,7 +79,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
           <DialogTitle>اضافة موضف جديد</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-[12px] text-destructive">
-          {/* {lastResult && lastResult.type === "error" && lastResult.message} */}
+          {lastResult && lastResult.type === "error" && lastResult.message}
         </DialogDescription>
 
         <div className="container mx-auto p-6">
@@ -98,19 +96,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
               />
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {/* <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="image">اسم الصورة</Label>
-                <Input
-                  type="file"
-                  id="image"
-                  key={fields.image.key}
-                  name={fields.image.name}
-                />
 
-                <div className="text-[12px] text-destructive">
-                  {fields.image.errors}
-                </div>
-              </div> */}
 
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="name">الاسم الكامل</Label>

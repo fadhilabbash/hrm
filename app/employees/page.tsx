@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { DataTable } from "../../components/DataTable";
 import AddEmployee from "@/components/employee/AddEmployee";
 import { getEmployees } from "@/services/actions/employees.actions";
@@ -24,15 +24,14 @@ const Page = () => {
     }
   };
 
-  const refetch = () => {
-    getData();
-    currentPage > lastPage && setCurrentPage(currentPage - 1);
-  };
 
   useEffect(() => {
-    getData();
-  }, [currentPage]);
-
+    if (currentPage > lastPage) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    } else {
+      getData();
+    }
+  }, [currentPage, lastPage]);
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentPage(1);
@@ -45,15 +44,17 @@ const Page = () => {
   return (
     <div className="container mx-auto w-full">
       <div className="">
-        <AddEmployee onSuccess={refetch} />
+        <AddEmployee onSuccess={getData} />
       </div>
 
       <DataTable
-        columns={Columns(refetch)}
+        columns={Columns(getData)}
         data={employees}
         currentPage={currentPage}
         lastPage={lastPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+        }}
         onSearch={(searchTerm) => setSearch(searchTerm)}
       />
     </div>

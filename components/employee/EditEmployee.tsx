@@ -33,11 +33,13 @@ import { Edit, Loader2 } from "lucide-react";
 import { Employee } from "@/lib/types";
 import { ErrorToast, SuccessToast } from "../common/Notification";
 import {
+  avatar,
   EducationGrade,
   EmploymentType,
   Gender,
   MaritalStatus,
 } from "@/lib/constants";
+import ImageInput from "../common/ImageInput";
 
 interface EditEmployeeProps {
   row: Employee;
@@ -48,7 +50,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
     editEmployee,
     undefined,
   );
-
+  const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
   const [open, setOpen] = useState(false);
   const [form, fields] = useForm({
     lastResult,
@@ -94,21 +96,19 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
             action={formAction}
           >
             <input type="hidden" name="id" value={row.id} />
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="image_name">اسم الصورة</Label>
-                <Input
-                  type="text"
-                  id="image_name"
-                  key={fields.name.key}
-                  name={fields.name.name}
-                  defaultValue={row.image_name}
-                />
-                <div className="text-[12px] text-destructive">
-                  {fields.name.errors}
-                </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <ImageInput
+                name={fields.image.name}
+                error={fields.image.errors}
+                initialImage={row.image? `${baseFileUrl}/${row.image}`
+                  : avatar
+                }
+              />
+              <div className="text-[12px] text-destructive">
+                {fields.name.errors}
               </div>
-
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="name">الاسم الكامل</Label>
                 <Input
@@ -219,6 +219,32 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.emergency_mobile.errors}
+                </div>
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="email">البريد الالكتروني</Label>
+                <Input
+                  type="text"
+                  id="email"
+                  key={fields.email.key}
+                  name={fields.email.name}
+                  defaultValue={row.email}
+                />
+                <div className="text-[12px] text-destructive">
+                  {fields.email.errors}
+                </div>
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="badge_number">رقم الباج</Label>
+                <Input
+                  type="text"
+                  id="badge_number"
+                  key={fields.badge_number.key}
+                  name={fields.badge_number.name}
+                  defaultValue={row.badge_number}
+                />
+                <div className="text-[12px] text-destructive">
+                  {fields.badge_number.errors}
                 </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -333,6 +359,13 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.salary.errors}
+                </div>
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="file">المرفقات</Label>
+                <Input type="file" id="file" name={fields.file.name} />
+                <div className="text-[12px] text-destructive">
+                  {fields.file.errors}
                 </div>
               </div>
             </div>

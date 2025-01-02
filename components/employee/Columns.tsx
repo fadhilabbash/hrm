@@ -61,7 +61,7 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
     meta: { displayName: "نوع التوظيف" },
     cell: ({ row }) => {
       const employmentType = EmploymentType.find(
-        (type) => type.value === row.original.type
+        (type) => type.value === row.original.type,
       );
       return employmentType ? employmentType.label : "غير معروف";
     },
@@ -72,8 +72,8 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
     meta: { displayName: "الصورة" },
     cell: ({ row }) => {
       const imageUrl = row.original.image
-  ? `${baseFileUrl}/${row.original.image}`
-  : avatar;
+        ? `${baseFileUrl}/${row.original.image}`
+        : avatar;
 
       return (
         <Image
@@ -107,7 +107,7 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
               const response = await deleteEmployee(row.original.id);
               if (response.type === "success") {
                 SuccessToast(response.message || ".تم الحذف بنجاح");
-                refetch(); // Trigger data refresh
+                refetch();
               } else if (response.type === "error") {
                 ErrorToast(response.message || ".حدث خطأ أثناء الحذف");
               }

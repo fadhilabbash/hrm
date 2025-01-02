@@ -14,12 +14,16 @@ import {
 import { Label } from "@/components/ui/label";
 import { Eye } from "lucide-react";
 import { Employee } from "@/lib/types";
+import { avatar } from "@/lib/constants";
+import Image from "next/image";
+import Link from "next/link";
 
 interface ViewEmployeeProps {
   row: Employee;
 }
 
 const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
+  const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,12 +39,16 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
           <DialogTitle>عرض بيانات الموظف</DialogTitle>
         </DialogHeader>
         <div className="container mx-auto p-6">
+          <div className="mb-2 flex flex-col">
+            <Image
+              src={row.image ? `${baseFileUrl}/${row.image}` : avatar}
+              alt="avatar"
+              className="h-18 w-18 object-cover rounded-md"
+              width={100}
+              height={100}
+            />
+          </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="flex flex-col">
-              <Label className="mb-1">اسم الصورة</Label>
-              <p className="rounded-md border p-2">{row.image_name}</p>
-            </div>
-
             <div className="flex flex-col">
               <Label className="mb-1">الاسم الكامل</Label>
               <p className="rounded-md border p-2">{row.name}</p>
@@ -70,25 +78,35 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
               <Label className="mb-1">الموبايل</Label>
               <p className="rounded-md border p-2">{row.mobile}</p>
             </div>
-
             <div className="flex flex-col">
               <Label className="mb-1">موبايل الطواريء</Label>
               <p className="rounded-md border p-2">{row.emergency_mobile}</p>
+            </div>
+            <div className="flex flex-col">
+              <Label className="mb-1">البريد الالكتروني</Label>
+              <p className="rounded-md border p-2">{row.email}</p>
+            </div>
+            <div className="flex flex-col">
+              <Label className="mb-1">رقم الباج</Label>
+              <p className="rounded-md border p-2">{row.badge_number}</p>
             </div>
 
             <div className="flex flex-col">
               <Label className="mb-1">تاريخ التعيين</Label>
               <p className="rounded-md border p-2">{row.hiring_date}</p>
             </div>
+            <div className="flex flex-col">
+              <Label className="mb-1">الشهادة</Label>
+              <p className="rounded-md border p-2">{row.education_grade}</p>
+            </div>
 
             <div className="flex flex-col">
               <Label className="mb-1">القسم</Label>
               <p className="rounded-md border p-2">{row.department_id}</p>
             </div>
-
             <div className="flex flex-col">
-              <Label className="mb-1">الشهادة</Label>
-              <p className="rounded-md border p-2">{row.education_grade}</p>
+              <Label className="mb-1">الموقع الوضيفي</Label>
+              <p className="rounded-md border p-2">{row.position_id}</p>
             </div>
 
             <div className="flex flex-col">
@@ -99,6 +117,15 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
             <div className="flex flex-col">
               <Label className="mb-1">الراتب</Label>
               <p className="rounded-md border p-2">{row.salary}</p>
+            </div>
+          
+            <div className="flex">
+              <Link
+                href={row.file ? `${baseFileUrl}/${row.file}` : "#"}
+                className="rounded-md p-2 text-blue-600 hover:text-blue-400 underline"
+              >
+                المرفقات
+              </Link>
             </div>
           </div>
         </div>
