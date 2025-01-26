@@ -9,12 +9,13 @@ import DeleteAlertDialog from "@/components/common/DeleteAlertDialog";
 import { deleteEmployee } from "@/services/actions/employees.actions";
 import { ErrorToast, SuccessToast } from "../common/Notification";
 import Image from "next/image";
-import { avatar, EmploymentType, getEmployeeType } from "@/lib/constants";
+import { avatar } from "@/lib/constants";
 import Link from "next/link";
+import { getEmployeeType } from "@/lib/utils";
 // Extend ColumnMeta to include 'displayName'
 declare module "@tanstack/react-table" {
   interface ColumnMeta<TData, TValue> {
-    displayName?: string; // Make it optional
+    displayName?: string; 
   }
 }
 const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
@@ -119,9 +120,8 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
           {/* Edit Button */}
           <EditEmployee row={row.original} onSuccess={refetch} />
           {/* Delete Button */}
-
           <DeleteAlertDialog
-            icon={<Trash2 className="h-4 w-4 text-zinc-900" />}
+            icon={<Trash2 className="h-4 w-4" />}
             title="تاكيد الحذف"
             description="هل أنت متأكد أنك تريد الحذف؟ هذا الأمر غير قابل للتراجع."
             onConfirm={async () => {

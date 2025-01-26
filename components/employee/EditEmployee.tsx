@@ -77,7 +77,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row, onSuccess }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-1">
-          <Edit className="h-4 w-4 text-zinc-900" />
+          <Edit className="h-4 w-4" />
           تعديل
         </Button>
       </DialogTrigger>

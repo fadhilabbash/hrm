@@ -7,7 +7,7 @@ import { getEmployees } from "@/services/actions/employees.actions";
 import { Employee } from "@/lib/types";
 import { Columns } from "@/components/employee/Columns";
 
-const Page = () => {
+const Employees = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -61,4 +61,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Employees;

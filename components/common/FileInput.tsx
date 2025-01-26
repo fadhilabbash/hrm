@@ -45,7 +45,7 @@ const FileInput: React.FC<FileInputProps> = ({
             href={fileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-md bg-zinc-900 p-2 text-white"
+            className="rounded-md p-2 bg-primary text-primary-foreground"
           >
             <Eye className="h-5 w-5" />
           </Link>

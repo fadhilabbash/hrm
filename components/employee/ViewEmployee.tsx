@@ -16,12 +16,11 @@ import { Eye } from "lucide-react";
 import { Employee } from "@/lib/types";
 import {
   avatar,
-  getEducationGrade,
-  getEmployeeType,
-  getGender,
+
 } from "@/lib/constants";
 import Image from "next/image";
 import Link from "next/link";
+import { getEducationGrade, getEmployeeType, getGender } from "@/lib/utils";
 
 interface ViewEmployeeProps {
   row: Employee;
@@ -35,7 +34,7 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ row }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="flex items-center gap-1">
-          <Eye className="h-4 w-4 text-zinc-900" />
+          <Eye className="h-4 w-4" />
           عرض
         </Button>
       </DialogTrigger>
