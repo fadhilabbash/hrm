@@ -16,19 +16,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, ChevronDown, RefreshCcw } from "lucide-react";
-import { Input } from "./ui/input";
+import { ChevronDown } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -36,11 +27,11 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Search } from "./common/Search";
+import AddEmployee from "./employee/AddEmployee";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
- 
 }
 
 export function DataTable<TData, TValue>({
@@ -56,37 +47,48 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Search/>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex items-center rtl:mr-auto">
-              <ChevronDown /> الاعمدة
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="rtl:left-auto rtl:right-0 rtl:origin-top-right"
-          >
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.columnDef.meta?.displayName || column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex items-center justify-between pb-2">
+        <div>
+          <AddEmployee />
+        </div>
+
+        <div className="flex items-center justify-center gap-4">
+          <div>
+            <Search />
+          </div>
+
+          <div>
+            <DropdownMenu dir="rtl">
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center rtl:mr-auto"
+                >
+                  <ChevronDown /> الاعمدة
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.columnDef.meta?.displayName || column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>

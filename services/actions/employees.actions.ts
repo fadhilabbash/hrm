@@ -4,6 +4,7 @@ import apiClient from "../apiClient";
 import { ENDPOINTS } from "../endpoints";
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
+import { revalidatePath } from "next/cache";
 
 //Get all employee
 export const getEmployees = async (
@@ -41,6 +42,7 @@ export const addEmployee = async (
     method: "POST",
     body: formData,
   });
+  revalidatePath("/");
   return response;
 };
 
@@ -78,7 +80,7 @@ export const editEmployee = async (
     method: "POST",
     body: formData,
   });
-
+  revalidatePath("/");
   return response;
 };
 //Delete employee
@@ -87,5 +89,6 @@ export const deleteEmployee = async (
 ): Promise<ApiResponse<Employee>> => {
   const endpoint = ENDPOINTS.deleteEmployee(employeeId);
   const response = await apiClient<Employee>(endpoint, { method: "DELETE" });
+  revalidatePath("/");
   return response;
 };

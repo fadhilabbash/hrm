@@ -15,13 +15,13 @@ import { getEmployeeType } from "@/lib/utils";
 // Extend ColumnMeta to include 'displayName'
 declare module "@tanstack/react-table" {
   interface ColumnMeta<TData, TValue> {
-    displayName?: string; 
+    displayName?: string;
   }
 }
 const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
 
 // Columns definition
-export const Columns : ColumnDef<Employee>[] = [
+export const Columns: ColumnDef<Employee>[] = [
   {
     accessorKey: "id",
     header: "التسلسل",
@@ -62,7 +62,7 @@ export const Columns : ColumnDef<Employee>[] = [
     header: "نوع التوظيف",
     meta: { displayName: "نوع التوظيف" },
     cell: ({ row }) => {
-      return getEmployeeType(row.original.type); 
+      return getEmployeeType(row.original.type);
     },
   },
   {
@@ -78,7 +78,7 @@ export const Columns : ColumnDef<Employee>[] = [
         <Image
           src={imageUrl}
           alt="avatar"
-          className="h-12 w-12 rounded-md object-cover"
+          className="h-12 w-12 rounded-full object-cover"
           width={100}
           height={100}
         />
@@ -93,16 +93,16 @@ export const Columns : ColumnDef<Employee>[] = [
       const fileUrl = row.original.file
         ? `${baseFileUrl}/${row.original.file}`
         : null;
-  
+
       return fileUrl ? (
         <Link
-        href={fileUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="rounded-md p-2 text-zinc-900 underline hover:text-zinc-700"
-      >
-        المرفقات
-      </Link>
+          href={fileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-md p-2 text-zinc-900 underline hover:text-zinc-700"
+        >
+          المرفقات
+        </Link>
       ) : (
         <span className="text-gray-400">لا يوجد ملف</span>
       );
@@ -128,7 +128,6 @@ export const Columns : ColumnDef<Employee>[] = [
               const response = await deleteEmployee(row.original.id);
               if (response.type === "success") {
                 SuccessToast(response.message || ".تم الحذف بنجاح");
-               
               } else if (response.type === "error") {
                 ErrorToast(response.message || ".حدث خطأ أثناء الحذف");
               }

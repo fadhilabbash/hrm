@@ -30,7 +30,6 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { Loader2, PlusCircle } from "lucide-react";
 import { ErrorToast, SuccessToast } from "../common/Notification";
-import { Employee } from "@/lib/types";
 import {
   EducationGrade,
   EmploymentType,
@@ -39,18 +38,14 @@ import {
 } from "@/lib/constants";
 import ImageInput from "../common/ImageInput";
 import FileInput from "../common/FileInput";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useRefetch } from "@/hooks/use-refetch";
 
-interface AddEmployeeProps {}
-const AddEmployee: React.FC<AddEmployeeProps> = () => {
+const AddEmployee: React.FC = () => {
   const [lastResult, formAction, isPending] = useActionState(
     addEmployee,
     undefined,
   );
 
   const [open, setOpen] = useState(false);
-  const { refetch } = useRefetch();
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -64,7 +59,6 @@ const AddEmployee: React.FC<AddEmployeeProps> = () => {
     if (lastResult?.type === "success") {
       setOpen(false);
       SuccessToast(lastResult.message || ".تمت الاضافة بنجاح");
-      refetch();
     }
     if (lastResult?.type === "error") {
       ErrorToast(lastResult.message || ".حدث خطأ أثناء الاضافة");
