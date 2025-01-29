@@ -1,10 +1,10 @@
 import { DataTable } from "../../components/DataTable";
-
 import { getEmployees } from "@/services/actions/employees.actions";
 import { Employee } from "@/lib/types";
 import { Columns } from "@/components/employee/Columns";
 import { PaginationWithLinks } from "@/components/common/PaginationWithLinks";
 import AddEmployee from "@/components/employee/AddEmployee";
+import { Suspense } from "react";
 interface SearchParamsProps {
   searchParams?: {
     page?: string;
@@ -16,13 +16,16 @@ const Employees = async ({ searchParams }: SearchParamsProps) => {
   const query = search?.query ?? "";
   const currentPage = Number(search?.page) || 1;
   const res = await getEmployees(currentPage, query);
-  if (res.type === "error") return null;
+  if (res.type === "error") return <p className="text-red-500">Failed to load employees.</p>;
 
   return (
     <div className="container grid grid-cols-1 gap-4 p-4 mx-auto py-8">
       <div>
       <AddEmployee />
-        <DataTable columns={Columns} data={res.data as Employee[]} />
+      <Suspense fallback={<p>Loading feed...</p>}>
+      <DataTable columns={Columns} data={res.data as Employee[]} />
+      </Suspense>
+       
       </div>
       <div>
         <PaginationWithLinks

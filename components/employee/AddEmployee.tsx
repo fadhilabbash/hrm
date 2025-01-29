@@ -39,6 +39,9 @@ import {
 } from "@/lib/constants";
 import ImageInput from "../common/ImageInput";
 import FileInput from "../common/FileInput";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRefetch } from "@/hooks/use-refetch";
+
 interface AddEmployeeProps {}
 const AddEmployee: React.FC<AddEmployeeProps> = () => {
   const [lastResult, formAction, isPending] = useActionState(
@@ -47,6 +50,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = () => {
   );
 
   const [open, setOpen] = useState(false);
+  const { refetch } = useRefetch();
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {
@@ -55,10 +59,12 @@ const AddEmployee: React.FC<AddEmployeeProps> = () => {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
   useEffect(() => {
     if (lastResult?.type === "success") {
       setOpen(false);
       SuccessToast(lastResult.message || ".تمت الاضافة بنجاح");
+      refetch();
     }
     if (lastResult?.type === "error") {
       ErrorToast(lastResult.message || ".حدث خطأ أثناء الاضافة");
