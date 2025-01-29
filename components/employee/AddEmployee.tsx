@@ -39,10 +39,8 @@ import {
 } from "@/lib/constants";
 import ImageInput from "../common/ImageInput";
 import FileInput from "../common/FileInput";
-interface AddEmployeeProps {
-  onSuccess: () => void;
-}
-const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
+interface AddEmployeeProps {}
+const AddEmployee: React.FC<AddEmployeeProps> = () => {
   const [lastResult, formAction, isPending] = useActionState(
     addEmployee,
     undefined,
@@ -61,7 +59,6 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
     if (lastResult?.type === "success") {
       setOpen(false);
       SuccessToast(lastResult.message || ".تمت الاضافة بنجاح");
-        onSuccess(); 
     }
     if (lastResult?.type === "error") {
       ErrorToast(lastResult.message || ".حدث خطأ أثناء الاضافة");
@@ -97,8 +94,6 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
               />
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-
-
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="name">الاسم الكامل</Label>
                 <Input
@@ -333,7 +328,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ onSuccess }) => {
                 </div>
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
-              <FileInput
+                <FileInput
                   label="المرفقات"
                   name={fields.file.name}
                   error={fields.file.errors}

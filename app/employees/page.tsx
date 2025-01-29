@@ -1,62 +1,39 @@
-"use client";
-
-import { useRef, useState, useEffect } from "react";
 import { DataTable } from "../../components/DataTable";
-import AddEmployee from "@/components/employee/AddEmployee";
+
 import { getEmployees } from "@/services/actions/employees.actions";
 import { Employee } from "@/lib/types";
 import { Columns } from "@/components/employee/Columns";
-
-const Employees = () => {
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [lastPage, setLastPage] = useState(1);
-  const [search, setSearch] = useState("");
-
-  const getData = async (
-    page: number = currentPage,
-    searchTerm: string = search,
-  ) => {
-    const response = await getEmployees(page, searchTerm);
-    if (response.type === "success") {
-      setEmployees(Array.isArray(response.data) ? response.data : []);
-      setLastPage(response.pagination?.last_page || 1);
-    }
+import { PaginationWithLinks } from "@/components/common/PaginationWithLinks";
+import AddEmployee from "@/components/employee/AddEmployee";
+interface SearchParamsProps {
+  searchParams?: {
+    page?: string;
+    query?: string;
   };
-
-
-  useEffect(() => {
-    if (currentPage > lastPage) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    } else {
-      getData();
-    }
-  }, [currentPage, lastPage]);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setCurrentPage(1);
-      getData();
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [search]);
+}
+const Employees = async ({ searchParams }: SearchParamsProps) => {
+  const search = await searchParams;
+  const query = search?.query ?? "";
+  const currentPage = Number(search?.page) || 1;
+  const res = await getEmployees(currentPage, query);
+  if (res.type === "error") return null;
 
   return (
-    <div className="container mx-auto w-full">
-      <div className="">
-        <AddEmployee onSuccess={getData} />
+    <div className="container grid grid-cols-1 gap-4 p-4 mx-auto py-8">
+      <div>
+      <AddEmployee />
+        <DataTable columns={Columns} data={res.data as Employee[]} />
       </div>
-
-      <DataTable
-        columns={Columns(getData)}
-        data={employees}
-        currentPage={currentPage}
-        lastPage={lastPage}
-        onPageChange={(page) => {
-          setCurrentPage(page);
-        }}
-        onSearch={(searchTerm) => setSearch(searchTerm)}
-      />
+      <div>
+        <PaginationWithLinks
+          page={currentPage}
+          pageSize={res.pagination ? res.pagination.per_page : 0}
+          totalCount={res.pagination ? res.pagination.total : 0}
+          pageSizeSelectOptions={{
+            pageSizeOptions: [5, 10, 25, 50],
+          }}
+        />
+      </div>
     </div>
   );
 };

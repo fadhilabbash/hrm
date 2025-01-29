@@ -21,7 +21,7 @@ declare module "@tanstack/react-table" {
 const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
 
 // Columns definition
-export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
+export const Columns : ColumnDef<Employee>[] = [
   {
     accessorKey: "id",
     header: "التسلسل",
@@ -118,7 +118,7 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
           {/* View Button */}
           <ViewEmployee row={row.original} />
           {/* Edit Button */}
-          <EditEmployee row={row.original} onSuccess={refetch} />
+          <EditEmployee row={row.original} />
           {/* Delete Button */}
           <DeleteAlertDialog
             icon={<Trash2 className="h-4 w-4" />}
@@ -128,7 +128,7 @@ export const Columns = (refetch: () => void): ColumnDef<Employee>[] => [
               const response = await deleteEmployee(row.original.id);
               if (response.type === "success") {
                 SuccessToast(response.message || ".تم الحذف بنجاح");
-                refetch();
+               
               } else if (response.type === "error") {
                 ErrorToast(response.message || ".حدث خطأ أثناء الحذف");
               }

@@ -35,25 +35,17 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Search } from "./common/Search";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onRefetch?: () => void;
-  currentPage: number;
-  lastPage: number;
-  onPageChange: (page: number) => void;
-  onSearch: (searchTerm: string) => void;
+ 
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onRefetch,
-  currentPage,
-  lastPage,
-  onPageChange,
-  onSearch,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -65,11 +57,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
-          placeholder="ادخل كلمة للبحث عنها."
-          onChange={(event) => onSearch(event.target.value)}
-          className="max-w-sm"
-        />
+        <Search/>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="flex items-center rtl:mr-auto">
@@ -150,7 +138,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {lastPage !== 1 && (
+      {/* {lastPage !== 1 && (
         <div className="flex items-center justify-center space-x-2 py-4 rtl:space-x-reverse">
           <Pagination>
             <PaginationContent>
@@ -193,7 +181,7 @@ export function DataTable<TData, TValue>({
             </PaginationContent>
           </Pagination>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

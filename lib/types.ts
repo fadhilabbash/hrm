@@ -29,15 +29,15 @@ type Pagination = {
 };
 
 export type SuccessResponse<T> = {
-  type?: "success";
-  message?: string;
+  type: "success";
+  message: string;
   data?: T|T[];
   pagination?: Pagination;
 };
 
 export type ErrorResponse = {
-  type?: "error";
-  message?: string;
+  type: "error";
+  message: string;
   code?: number; 
   errors?: Record<string, string[]>;
 };
