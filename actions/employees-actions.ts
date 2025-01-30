@@ -1,10 +1,10 @@
 "use server";
 import { Employee, ApiResponseWithValidation, ApiResponse } from "@/lib/types";
-import apiClient from "../apiClient";
-import { ENDPOINTS } from "../endpoints";
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
+import { ENDPOINTS } from "@/api/endpoints";
+import apiClient from "@/api/api-client";
 
 //Get all employee
 export const getEmployees = async (
@@ -42,7 +42,7 @@ export const addEmployee = async (
     method: "POST",
     body: formData,
   });
-  revalidatePath("/");
+  revalidatePath("/employees");
   return response;
 };
 
@@ -80,7 +80,7 @@ export const editEmployee = async (
     method: "POST",
     body: formData,
   });
-  revalidatePath("/");
+  revalidatePath("/employees");
   return response;
 };
 //Delete employee
@@ -89,6 +89,6 @@ export const deleteEmployee = async (
 ): Promise<ApiResponse<Employee>> => {
   const endpoint = ENDPOINTS.deleteEmployee(employeeId);
   const response = await apiClient<Employee>(endpoint, { method: "DELETE" });
-  revalidatePath("/");
+  revalidatePath("/employees");
   return response;
 };

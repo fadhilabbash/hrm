@@ -3,15 +3,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
 import { Employee } from "@/lib/types";
-import EditEmployee from "@/components/employee/EditEmployee";
-import ViewEmployee from "@/components/employee/ViewEmployee";
-import DeleteAlertDialog from "@/components/common/DeleteAlertDialog";
-import { deleteEmployee } from "@/services/actions/employees.actions";
-import { ErrorToast, SuccessToast } from "../common/Notification";
+import EditEmployee from "@/components/employee/edit-employee";
+import ViewEmployee from "@/components/employee/view-employee";
+import DeleteAlertDialog from "@/components/common/delete-dialog";
+import { ErrorToast, SuccessToast } from "../common/notification";
 import Image from "next/image";
 import { avatar } from "@/lib/constants";
 import Link from "next/link";
 import { getEmployeeType } from "@/lib/utils";
+import { deleteEmployee } from "@/actions/employees-actions";
 // Extend ColumnMeta to include 'displayName'
 declare module "@tanstack/react-table" {
   interface ColumnMeta<TData, TValue> {
@@ -21,7 +21,7 @@ declare module "@tanstack/react-table" {
 const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
 
 // Columns definition
-export const Columns: ColumnDef<Employee>[] = [
+export const tableColumns: ColumnDef<Employee>[] = [
   {
     accessorKey: "id",
     header: "التسلسل",

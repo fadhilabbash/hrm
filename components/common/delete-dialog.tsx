@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-interface DeleteAlertDialogProps {
+interface DeleteDialogProps {
   icon?: React.ReactNode;
   triggerLabel?: string;
   title?: string;
@@ -22,7 +22,7 @@ interface DeleteAlertDialogProps {
   cancelLabel?: string;
 }
 
-const DeleteAlertDialog: React.FC<DeleteAlertDialogProps> = ({
+const DeleteDialog: React.FC<DeleteDialogProps> = ({
   icon,
   triggerLabel = "Show Dialog",
   title = "Are you absolutely sure?",
@@ -61,4 +61,4 @@ const DeleteAlertDialog: React.FC<DeleteAlertDialogProps> = ({
     </AlertDialog>
   );
 };
-export default DeleteAlertDialog;
+export default DeleteDialog;

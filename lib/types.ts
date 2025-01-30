@@ -31,7 +31,7 @@ type Pagination = {
 export type SuccessResponse<T> = {
   type: "success";
   message: string;
-  data?: T|T[];
+  data: T|T[];
   pagination?: Pagination;
 };
 
@@ -39,7 +39,7 @@ export type ErrorResponse = {
   type: "error";
   message: string;
   code?: number; 
-  errors?: Record<string, string[]>;
+  errors: Record<string, string[]>;
 };
 
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;

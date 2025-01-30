@@ -1,9 +1,9 @@
-import { DataTable } from "../../components/DataTable";
-import { getEmployees } from "@/services/actions/employees.actions";
+import { DataTable } from "../../components/data-table";
 import { Employee } from "@/lib/types";
-import { Columns } from "@/components/employee/Columns";
-import { PaginationWithLinks } from "@/components/common/PaginationWithLinks";
-import AddEmployee from "@/components/employee/AddEmployee";
+import { PaginationWithLinks } from "@/components/common/pagination-with-links";
+import { tableColumns } from "@/components/employee/table-columns";
+import { getEmployees } from "@/actions/employees-actions";
+
 interface SearchParamsProps {
   searchParams?: {
     page?: string;
@@ -21,8 +21,7 @@ const Employees = async ({ searchParams }: SearchParamsProps) => {
   return (
     <div className="container mx-auto grid grid-cols-1 gap-4 p-4 py-8">
       <div>
-       
-        <DataTable columns={Columns} data={res.data as Employee[]} />
+        <DataTable columns={tableColumns} data={res.data as Employee[]} />
       </div>
       <div>
         <PaginationWithLinks

@@ -26,8 +26,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Search } from "./common/Search";
-import AddEmployee from "./employee/AddEmployee";
+
+import AddEmployee from "./employee/add-employee";
+import { SearchInput } from "./common/search-input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -54,7 +55,7 @@ export function DataTable<TData, TValue>({
 
         <div className="flex items-center justify-center gap-4">
           <div>
-            <Search />
+            <SearchInput />
           </div>
 
           <div>

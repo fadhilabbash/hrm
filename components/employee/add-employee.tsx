@@ -14,7 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { editEmployee } from "@/services/actions/employees.actions";
+
 
 import {
   Select,
@@ -26,32 +26,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { employeeSchema } from "@/lib/schemas";
 import { Label } from "../ui/label";
-
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { Edit, Loader2 } from "lucide-react";
-import { Employee } from "@/lib/types";
-import { ErrorToast, SuccessToast } from "../common/Notification";
+import { Loader2, PlusCircle } from "lucide-react";
+import { ErrorToast, SuccessToast } from "../common/notification";
 import {
-  avatar,
   EducationGrade,
   EmploymentType,
   Gender,
   MaritalStatus,
 } from "@/lib/constants";
-import ImageInput from "../common/ImageInput";
-import FileInput from "../common/FileInput";
+import ImageInput from "../common/image-input";
+import FileInput from "../common/file-input";
+import { addEmployee } from "@/actions/employees-actions";
 
-
-interface EditEmployeeProps {
-  row: Employee;
-}
-const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
+const AddEmployee: React.FC = () => {
   const [lastResult, formAction, isPending] = useActionState(
-    editEmployee,
+    addEmployee,
     undefined,
   );
-  const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
+
   const [open, setOpen] = useState(false);
   const [form, fields] = useForm({
     lastResult,
@@ -61,28 +55,27 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
   useEffect(() => {
     if (lastResult?.type === "success") {
       setOpen(false);
-      SuccessToast(lastResult.message || ".تم التعديل بنجاح");
+      SuccessToast(lastResult.message || ".تمت الاضافة بنجاح");
     }
     if (lastResult?.type === "error") {
-      setOpen(false);
-      ErrorToast(lastResult.message || ".حدث خطأ أثناء التعديل");
+      ErrorToast(lastResult.message || ".حدث خطأ أثناء الاضافة");
     }
   }, [lastResult]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="flex items-center gap-1">
-          <Edit className="h-4 w-4" />
-          تعديل
+        <Button size="sm" className="flex items-center gap-1">
+          <PlusCircle /> اضافة موضف جديد
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[1000px]">
         <DialogHeader>
-          <DialogTitle>تعديل بيانات موظف</DialogTitle>
+          <DialogTitle>اضافة موضف جديد</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-[12px] text-destructive">
           {lastResult && lastResult.type === "error" && lastResult.message}
@@ -95,18 +88,11 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
             onSubmit={form.onSubmit}
             action={formAction}
           >
-            <input type="hidden" name="id" value={row.id} />
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <ImageInput
                 name={fields.image.name}
                 error={fields.image.errors}
-                initialImage={
-                  row.image ? `${baseFileUrl}/${row.image}` : avatar
-                }
               />
-              <div className="text-[12px] text-destructive">
-                {fields.name.errors}
-              </div>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -116,7 +102,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="name"
                   key={fields.name.key}
                   name={fields.name.name}
-                  defaultValue={row.name}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.name.errors}
@@ -130,7 +115,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="birth_date"
                   key={fields.birth_date.key}
                   name={fields.birth_date.name}
-                  defaultValue={row.birth_date}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.birth_date.errors}
@@ -138,11 +122,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="gender">الجنس</Label>
-                <Select
-                  key={fields.gender.key}
-                  name={fields.gender.name}
-                  defaultValue={row.gender}
-                >
+                <Select key={fields.gender.key} name={fields.gender.name}>
                   <SelectTrigger>
                     <SelectValue placeholder="اختر الجنس" />
                   </SelectTrigger>
@@ -164,7 +144,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                 <Select
                   key={fields.marital_status.key}
                   name={fields.marital_status.name}
-                  defaultValue={row.marital_status}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر الحالة الزوجية" />
@@ -189,7 +168,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="address"
                   key={fields.address.key}
                   name={fields.address.name}
-                  defaultValue={row.address}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.address.errors}
@@ -202,7 +180,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="mobile"
                   key={fields.mobile.key}
                   name={fields.mobile.name}
-                  defaultValue={row.mobile}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.mobile.errors}
@@ -215,12 +192,12 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="emergency_mobile"
                   key={fields.emergency_mobile.key}
                   name={fields.emergency_mobile.name}
-                  defaultValue={row.emergency_mobile}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.emergency_mobile.errors}
                 </div>
               </div>
+
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="email">البريد الالكتروني</Label>
                 <Input
@@ -228,7 +205,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="email"
                   key={fields.email.key}
                   name={fields.email.name}
-                  defaultValue={row.email}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.email.errors}
@@ -241,12 +217,12 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="badge_number"
                   key={fields.badge_number.key}
                   name={fields.badge_number.name}
-                  defaultValue={row.badge_number}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.badge_number.errors}
                 </div>
               </div>
+
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="hiring_date">تاريخ التعيين</Label>
                 <Input
@@ -254,7 +230,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="hiring_date"
                   key={fields.hiring_date.key}
                   name={fields.hiring_date.name}
-                  defaultValue={row.hiring_date}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.hiring_date.errors}
@@ -265,7 +240,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                 <Select
                   key={fields.education_grade.key}
                   name={fields.education_grade.name}
-                  defaultValue={row.education_grade}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  الشهادة" />
@@ -288,7 +262,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                 <Select
                   key={fields.department_id.key}
                   name={fields.department_id.name}
-                  defaultValue={row.department_id.toString()}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  القسم" />
@@ -309,7 +282,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                 <Select
                   key={fields.position_id.key}
                   name={fields.position_id.name}
-                  defaultValue={row.position_id.toString()}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  الموقع الوظيفي" />
@@ -327,11 +299,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="type">نوع التوظيف</Label>
-                <Select
-                  key={fields.type.key}
-                  name={fields.type.name}
-                  value={row.type}
-                >
+                <Select key={fields.type.key} name={fields.type.name}>
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  نوع التوظيف" />
                   </SelectTrigger>
@@ -355,7 +323,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   id="salary"
                   key={fields.salary.key}
                   name={fields.salary.name}
-                  defaultValue={row.salary}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.salary.errors}
@@ -366,13 +333,9 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
                   label="المرفقات"
                   name={fields.file.name}
                   error={fields.file.errors}
-                  initialFileUrl={row.file
-                    ? `${baseFileUrl}/${row.file}`
-                    : ""}
                 />
               </div>
             </div>
-
             <DialogFooter>
               <Button type="submit" disabled={isPending} className="ml-2 mt-2">
                 {isPending ? (
@@ -396,4 +359,4 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row}) => {
     </Dialog>
   );
 };
-export default EditEmployee;
+export default AddEmployee;
