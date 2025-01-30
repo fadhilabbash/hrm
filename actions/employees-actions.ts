@@ -1,10 +1,11 @@
 "use server";
-import { Employee, ApiResponseWithValidation, ApiResponse } from "@/lib/types";
+import { Employee, ApiResponseWithValidation, ApiResponse, ErrorResponse } from "@/lib/types";
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 import { ENDPOINTS } from "@/api/endpoints";
 import apiClient from "@/api/api-client";
+import { SubmissionResult } from "@conform-to/react";
 
 //Get all employee
 export const getEmployees = async (
@@ -34,7 +35,7 @@ export const addEmployee = async (
   });
 
   if (submission.status !== "success") {
-    return submission.reply();
+    return submission.reply() as SubmissionResult<string[]> & ErrorResponse ;
   }
   
   const endpoint = ENDPOINTS.createEmployee;
@@ -65,7 +66,7 @@ export const editEmployee = async (
     formData.delete("file");
   }
   if (submission.status !== "success") {
-    return submission.reply();
+    return submission.reply() as SubmissionResult<string[]> & ErrorResponse ;
   }
   // Retrieve the ID from the formData
   const id = formData.get("id");
