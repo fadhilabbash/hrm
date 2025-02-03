@@ -19,25 +19,23 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { SearchInput } from "./search-input";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem } from "@radix-ui/react-dropdown-menu";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 
-import AddEmployee from "./employee/add-employee";
-import { SearchInput } from "./common/search-input";
+
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  children?: React.ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  children,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -50,7 +48,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center justify-between pb-2">
         <div>
-          <AddEmployee />
+        {children}
         </div>
 
         <div className="flex items-center justify-center gap-4">
@@ -141,50 +139,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* {lastPage !== 1 && (
-        <div className="flex items-center justify-center space-x-2 py-4 rtl:space-x-reverse">
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  href="#"
-                  onClick={() => onPageChange(currentPage - 1)}
-                  className={
-                    currentPage === 1
-                      ? "pointer-events-none opacity-50"
-                      : undefined
-                  }
-                />
-              </PaginationItem>
-              {[...Array(lastPage)].map((_, index) => (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    href="#"
-                    onClick={() => onPageChange(index + 1)}
-                    isActive={currentPage === index + 1}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext
-                  href="#"
-                  onClick={() => onPageChange(currentPage + 1)}
-                  className={
-                    currentPage === lastPage
-                      ? "pointer-events-none opacity-50"
-                      : undefined
-                  }
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
-      )} */}
     </div>
   );
 }
