@@ -17,7 +17,7 @@ const Employees = async ({ searchParams }: SearchParamsProps) => {
   const currentPage = Number(search?.page) || 1;
   const res = await getEmployees(currentPage, query);
   if (res.type === "error")
-    return <p className="text-red-500">Failed to load employees.</p>;
+    return <p className="text-red-500">فشل في تحميل البيانات</p>;
 
   return (
     <div className="container mx-auto grid grid-cols-1 gap-4 p-4 py-8">
