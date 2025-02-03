@@ -3,9 +3,9 @@ import { Employee, ApiResponseWithValidation, ApiResponse, ErrorResponse } from 
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
-import { ENDPOINTS } from "@/api/endpoints";
-import apiClient from "@/api/api-client";
 import { SubmissionResult } from "@conform-to/react";
+import apiClient from "../api/api-client";
+import { ENDPOINTS } from "../api/endpoints";
 
 //Get all employee
 export const getEmployees = async (
