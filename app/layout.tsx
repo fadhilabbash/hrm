@@ -5,8 +5,8 @@ import { AppSidebar } from "@/components/base/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { Alexandria } from "next/font/google";
 
-import DynamicBreadcrumbs from "@/components/base/dynamic-breadcrumbs ";
 import { Separator } from "@/components/ui/separator";
+import DynamicBreadcrumbs from "@/components/base/dynamic-breadcrumbs";
 
 const alexandria = Alexandria({
   weight: "400",
