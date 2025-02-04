@@ -1,9 +1,9 @@
 import { Employee } from "@/lib/types";
 import { PaginationWithLinks } from "@/components/common/pagination-with-links";
 import { tableColumns } from "@/components/employee/table-columns";
-import { getEmployees } from "@/actions/employees-actions";
 import AddEmployee from "@/components/employee/add-employee";
 import { DataTable } from "@/components/common/data-table";
+import { getEmployees } from "@/services/actions/employees-actions";
 
 interface SearchParamsProps {
   searchParams?: {
