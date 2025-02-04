@@ -11,7 +11,7 @@ interface SearchParamsProps {
     query?: string;
   };
 }
-const Employees = async ({ searchParams }: SearchParamsProps) => {
+const EmployeesPage = async ({ searchParams }: SearchParamsProps) => {
   const search = await searchParams;
   const query = search?.query ?? "";
   const currentPage = Number(search?.page) || 1;
@@ -40,4 +40,4 @@ const Employees = async ({ searchParams }: SearchParamsProps) => {
   );
 };
 
-export default Employees;
+export default EmployeesPage;
