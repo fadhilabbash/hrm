@@ -20,7 +20,7 @@ const EmployeesPage = async ({ searchParams }: SearchParamsProps) => {
     return <p className="text-red-500">فشل في تحميل البيانات</p>;
 
   return (
-    <div className="container mx-auto grid grid-cols-1 gap-4 p-4 py-8">
+    <div className="grid grid-cols-1 gap-4 p-2">
       <div>
         <DataTable columns={tableColumns} data={res.data as Employee[]}>
           <AddEmployee />

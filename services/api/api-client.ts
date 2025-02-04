@@ -36,7 +36,6 @@ const apiClient = async <T>(
     const errorData = {
       type: "error",
       message: `حدث خطأ في الخادم: ${response.status} - ${response.statusText}`,
-      status: response.status,
     };
     return errorData as ErrorResponse;
   }
@@ -45,7 +44,6 @@ const apiClient = async <T>(
   const errorData = {
     type: "error",
     message: `خطأ غير متوقع: ${response.status}. الرجاء المحاولة لاحقًا.`,
-    status: response.status,
   };
   return errorData as ErrorResponse;
 };

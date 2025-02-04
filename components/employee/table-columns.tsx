@@ -11,7 +11,8 @@ import Image from "next/image";
 import { avatar } from "@/lib/constants";
 import Link from "next/link";
 import { getEmployeeType } from "@/lib/utils";
-import { deleteEmployee } from "@/actions/employees-actions";
+import { deleteEmployee } from "@/services/actions/employees-actions";
+
 // Extend ColumnMeta to include 'displayName'
 declare module "@tanstack/react-table" {
   interface ColumnMeta<TData, TValue> {

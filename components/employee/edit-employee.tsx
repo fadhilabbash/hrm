@@ -41,7 +41,8 @@ import {
 } from "@/lib/constants";
 import ImageInput from "../common/image-input";
 import FileInput from "../common/file-input";
-import { editEmployee } from "@/actions/employees-actions";
+import { editEmployee } from "@/services/actions/employees-actions";
+
 
 interface EditEmployeeProps {
   row: Employee;

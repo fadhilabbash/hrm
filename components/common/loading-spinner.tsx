@@ -4,11 +4,11 @@ interface LoadingSpinnerProps {
   spinnerClass?: string;
 }
 
-export function LoadingSpinner({
+export const LoadingSpinner = ({
   text = "",
   wrapperClass,
-  spinnerClass="h-4 w-4",
-}: LoadingSpinnerProps) {
+  spinnerClass = "h-4 w-4",
+}: LoadingSpinnerProps) => {
   return (
     <div className={`flex items-center ${wrapperClass || ""}`}>
       <div
@@ -17,4 +17,4 @@ export function LoadingSpinner({
       <span>{text}</span>
     </div>
   );
-}
+};

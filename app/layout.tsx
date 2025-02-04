@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/base/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { Alexandria } from "next/font/google";
+
+import DynamicBreadcrumbs from "@/components/base/dynamic-breadcrumbs ";
+import { Separator } from "@/components/ui/separator";
 
 const alexandria = Alexandria({
   weight: "400",
@@ -21,14 +24,20 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <body className={alexandria.className}>
-        <SidebarProvider>
+      <SidebarProvider>
           <AppSidebar />
-          <main className="w-full">
-            <SidebarTrigger />
+          <SidebarInset>
+            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+              <div className="flex items-center gap-2 px-4">
+                <SidebarTrigger />
+                <Separator orientation="vertical" className="-mr-2 h-4" />
+                <DynamicBreadcrumbs />
+              </div>
+            </header>
             {children}
-          </main>
-          <Toaster />
+          </SidebarInset>
         </SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );

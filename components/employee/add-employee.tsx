@@ -38,7 +38,8 @@ import {
 } from "@/lib/constants";
 import ImageInput from "../common/image-input";
 import FileInput from "../common/file-input";
-import { addEmployee } from "@/actions/employees-actions";
+import { addEmployee } from "@/services/actions/employees-actions";
+
 
 const AddEmployee: React.FC = () => {
   const [lastResult, formAction, isPending] = useActionState(
