@@ -20,7 +20,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { SearchInput } from "./search-input";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -43,9 +48,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between pb-2">
-        <div>
-        {children}
-        </div>
+        <div>{children}</div>
 
         <div className="flex items-center justify-center gap-4">
           <div>
