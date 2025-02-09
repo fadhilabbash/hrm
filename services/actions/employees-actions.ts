@@ -37,7 +37,7 @@ export const addEmployee = async (
   if (submission.status !== "success") {
     return submission.reply();
   }
-console.log(formData)
+
   const endpoint = ENDPOINTS.createEmployee;
   const response = await apiClient<Employee>(endpoint, {
     method: "POST",

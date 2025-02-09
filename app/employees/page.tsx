@@ -22,7 +22,7 @@ const EmployeesPage = async ({ searchParams }: SearchParamsProps) => {
   return (
     <div className="grid grid-cols-1 gap-4 p-2">
       <div>
-        <DataTable columns={tableColumns} data={res.data as Employee[]||[]}>
+        <DataTable columns={tableColumns} data={res.data as Employee[]}>
           <AddEmployee />
         </DataTable>
       </div>
