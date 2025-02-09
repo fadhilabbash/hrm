@@ -1,3 +1,5 @@
+import { SubmissionResult } from "@conform-to/react";
+
 export interface Employee {
   id: number | string;
   image: string;
@@ -38,3 +40,6 @@ export type ErrorResponse = {
   errors?: Record<string, string>;
 };
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+export type FormActionResponse<T> = 
+  | SubmissionResult<string[]> 
+  | ApiResponse<T>;

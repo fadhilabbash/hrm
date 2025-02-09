@@ -1,11 +1,11 @@
 "use server";
-import { Employee, ApiResponse} from "@/lib/types";
+import { Employee, ApiResponse, FormActionResponse } from "@/lib/types";
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 import apiClient from "../api/api-client";
 import { ENDPOINTS } from "../api/endpoints";
-import { SubmissionResult } from "@conform-to/react";
+
 
 //Get all employee
 export const getEmployees = async (
@@ -22,7 +22,7 @@ export const getEmployees = async (
 export const addEmployee = async (
   prevState: unknown,
   formData: FormData,
-): Promise<SubmissionResult<string[]> | ApiResponse<Employee>> => {
+): Promise<FormActionResponse<Employee>> => {
   const validateFile = (file: FormDataEntryValue | null): boolean => {
     return file instanceof File && file.size > 0;
   };
@@ -51,7 +51,7 @@ export const addEmployee = async (
 export const editEmployee = async (
   prevState: unknown,
   formData: FormData,
-): Promise<SubmissionResult<string[]> | ApiResponse<Employee>> => {
+): Promise<FormActionResponse<Employee>> => {
   const submission = parseWithZod(formData, {
     schema: employeeSchema,
   });

@@ -1,5 +1,3 @@
-import { Calendar, Folder, Home, Inbox, Search, Settings, Users } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
