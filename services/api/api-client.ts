@@ -27,7 +27,7 @@ const apiClient = async <T>(
   // Handle 4xx responses (Client Errors)
   if (response.status >= 400 && response.status < 500) {
     const errorData = await response.json();
-    return errorData;
+    return errorData as ErrorApiResponse;
   }
 
   // Handle 5xx responses (Server Errors)
