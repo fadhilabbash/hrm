@@ -1,11 +1,11 @@
 "use server";
-import { Employee, ApiResponseWithValidation, ApiResponse, ErrorResponse } from "@/lib/types";
+import { Employee, ApiResponse} from "@/lib/types";
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
-import { SubmissionResult } from "@conform-to/react";
 import apiClient from "../api/api-client";
 import { ENDPOINTS } from "../api/endpoints";
+import { SubmissionResult } from "@conform-to/react";
 
 //Get all employee
 export const getEmployees = async (
@@ -22,7 +22,7 @@ export const getEmployees = async (
 export const addEmployee = async (
   prevState: unknown,
   formData: FormData,
-): Promise<ApiResponseWithValidation<Employee>> => {
+): Promise<SubmissionResult<string[]> | ApiResponse<Employee>> => {
   const validateFile = (file: FormDataEntryValue | null): boolean => {
     return file instanceof File && file.size > 0;
   };
@@ -35,9 +35,9 @@ export const addEmployee = async (
   });
 
   if (submission.status !== "success") {
-    return submission.reply() as SubmissionResult<string[]> & ErrorResponse ;
+    return submission.reply();
   }
-  
+
   const endpoint = ENDPOINTS.createEmployee;
   const response = await apiClient<Employee>(endpoint, {
     method: "POST",
@@ -51,7 +51,7 @@ export const addEmployee = async (
 export const editEmployee = async (
   prevState: unknown,
   formData: FormData,
-): Promise<ApiResponseWithValidation<Employee>> => {
+): Promise<SubmissionResult<string[]> | ApiResponse<Employee>> => {
   const submission = parseWithZod(formData, {
     schema: employeeSchema,
   });
@@ -66,7 +66,7 @@ export const editEmployee = async (
     formData.delete("file");
   }
   if (submission.status !== "success") {
-    return submission.reply() as SubmissionResult<string[]> & ErrorResponse ;
+    return submission.reply();
   }
   // Retrieve the ID from the formData
   const id = formData.get("id");

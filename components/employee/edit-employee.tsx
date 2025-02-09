@@ -14,8 +14,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-
-
 import {
   Select,
   SelectContent,
@@ -31,7 +29,7 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { Edit, Loader2 } from "lucide-react";
 import { Employee } from "@/lib/types";
-import { ErrorToast, SuccessToast } from "../common/notification";
+
 import {
   avatar,
   EducationGrade,
@@ -42,7 +40,7 @@ import {
 import ImageInput from "../common/image-input";
 import FileInput from "../common/file-input";
 import { editEmployee } from "@/services/actions/employees-actions";
-
+import { ErrorToast, SuccessToast } from "../common/notification";
 
 interface EditEmployeeProps {
   row: Employee;
@@ -52,10 +50,12 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row }) => {
     editEmployee,
     undefined,
   );
+  const transformedResult = lastResult?.type === "validation" ? lastResult : undefined;
   const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
   const [open, setOpen] = useState(false);
+
   const [form, fields] = useForm({
-    lastResult,
+    lastResult:transformedResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: employeeSchema });
     },

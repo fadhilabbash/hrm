@@ -14,8 +14,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-
-
 import {
   Select,
   SelectContent,
@@ -40,16 +38,15 @@ import ImageInput from "../common/image-input";
 import FileInput from "../common/file-input";
 import { addEmployee } from "@/services/actions/employees-actions";
 
-
 const AddEmployee: React.FC = () => {
   const [lastResult, formAction, isPending] = useActionState(
     addEmployee,
     undefined,
   );
-
+  const transformedResult = lastResult?.type === "validation" ? lastResult : undefined;
   const [open, setOpen] = useState(false);
   const [form, fields] = useForm({
-    lastResult,
+    lastResult:transformedResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: employeeSchema });
     },

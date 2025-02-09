@@ -1,7 +1,5 @@
-import { SubmissionResult } from "@conform-to/react";
-
 export interface Employee {
-  id: number|string;
+  id: number | string;
   image: string;
   name: string;
   birth_date: string;
@@ -10,15 +8,15 @@ export interface Employee {
   address: string;
   mobile: string;
   emergency_mobile: string;
-  email:string;
-  badge_number:string;
+  email: string;
+  badge_number: string;
   hiring_date: string;
   education_grade: string;
   department_id: string;
   position_id: string;
   type: string;
   salary: string;
-  file:string;
+  file: string;
 }
 
 type Pagination = {
@@ -30,18 +28,13 @@ type Pagination = {
 
 export type SuccessResponse<T> = {
   type: "success";
-  message: string;
-  data: T|T[];
+  message?: string;
+  data?: T;
   pagination?: Pagination;
 };
-
 export type ErrorResponse = {
   type: "error";
-  message: string;
-  code?: number; 
-  errors?: Record<string, string[]>;
+  message?: string;
+  errors?: Record<string, string>;
 };
-
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
-export type ApiResponseWithValidation<T> = SubmissionResult<string[]> &
-ApiResponse<T>;
