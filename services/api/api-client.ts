@@ -1,6 +1,6 @@
 "use server";
 
-import { ApiResponse, ErrorResponse, SuccessResponse} from "@/lib/types";
+import { ApiResponse, ErrorApiResponse, SuccessApiResponse} from "@/lib/types";
 
 const apiClient = async <T>(
   endpoint: string,
@@ -21,7 +21,7 @@ const apiClient = async <T>(
   // Handle 2xx responses (Success)
   if (response.ok) {
     const data = await response.json();
-    return data as SuccessResponse<T>;
+    return data as SuccessApiResponse<T>;
   }
 
   // Handle 4xx responses (Client Errors)
@@ -36,7 +36,7 @@ const apiClient = async <T>(
       type: "error",
       message: `حدث خطأ في الخادم: ${response.status} - ${response.statusText}`,
     };
-    return errorData as ErrorResponse;
+    return errorData as ErrorApiResponse;
   }
 
   // If for some reason the status code isn't recognized
@@ -44,6 +44,6 @@ const apiClient = async <T>(
     type: "error",
     message: `خطأ غير متوقع: ${response.status}. الرجاء المحاولة لاحقًا.`,
   };
-  return errorData as ErrorResponse;
+  return errorData as ErrorApiResponse;
 };
 export default apiClient;

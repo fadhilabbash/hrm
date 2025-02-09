@@ -28,18 +28,21 @@ type Pagination = {
   total: number;
 };
 
-export type SuccessResponse<T> = {
+export type SuccessApiResponse<T> = {
   type: "success";
   message?: string;
   data?: T;
   pagination?: Pagination;
 };
-export type ErrorResponse = {
+export type ErrorApiResponse = {
   type: "error";
   message?: string;
   errors?: Record<string, string>;
 };
-export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
-export type FormActionResponse<T> = 
-  | SubmissionResult<string[]> 
-  | ApiResponse<T>;
+type ExtendedSubmissionResult<FormError = string[]> =
+  SubmissionResult<FormError> & {
+    type?: "validation";
+  };
+
+export type ApiResponse<T> = SuccessApiResponse<T> | ErrorApiResponse;
+export type FormActionResponse<T> = ExtendedSubmissionResult | ApiResponse<T>;
