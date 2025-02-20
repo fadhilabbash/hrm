@@ -1,17 +1,16 @@
 "use server";
-import { Employee, ApiResponse, FormActionResponse } from "@/lib/types";
+import { Employee, ApiResponse } from "@/lib/types";
 import { employeeSchema } from "@/lib/schemas";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 import apiClient from "../api/api-client";
 import { ENDPOINTS } from "../api/endpoints";
 
-
 //Get all employee
 export const getEmployees = async (
   page: number = 1,
   search: string = "",
-): Promise<ApiResponse<Employee>> => {
+) => {
   const params = new URLSearchParams({ page: page.toString(), search });
   const endpoint = `${ENDPOINTS.employees}?${params.toString()}`;
   const response = await apiClient<Employee>(endpoint);
@@ -22,7 +21,7 @@ export const getEmployees = async (
 export const addEmployee = async (
   prevState: unknown,
   formData: FormData,
-): Promise<FormActionResponse<Employee>> => {
+)=> {
   const validateFile = (file: FormDataEntryValue | null): boolean => {
     return file instanceof File && file.size > 0;
   };
@@ -43,15 +42,18 @@ export const addEmployee = async (
     method: "POST",
     body: formData,
   });
+  if (response.type === "error") {
+    return submission.reply({ formErrors: [response.message as string] });
+  }
   revalidatePath("/employees");
-  return response;
+  return { status:response.type, ...submission.reply({resetForm:true}) };
 };
 
 //Edit employee
 export const editEmployee = async (
   prevState: unknown,
   formData: FormData,
-): Promise<FormActionResponse<Employee>> => {
+) => {
   const submission = parseWithZod(formData, {
     schema: employeeSchema,
   });
@@ -68,21 +70,19 @@ export const editEmployee = async (
   if (submission.status !== "success") {
     return submission.reply();
   }
-  // Retrieve the ID from the formData
+  
   const id = formData.get("id");
-
-  // Ensure the ID exists and is valid
-  if (!id || typeof id !== "string") {
-    throw new Error("Employee ID is required and must be a string");
-  }
   formData.append("_method", "PUT");
-  const endpoint = ENDPOINTS.updateEmployee(id);
+  const endpoint = ENDPOINTS.updateEmployee(id as string);
   const response = await apiClient<Employee>(endpoint, {
     method: "POST",
     body: formData,
   });
+  if (response.type === "error") {
+    return submission.reply({ formErrors: [response.message as string] });
+  }
   revalidatePath("/employees");
-  return response;
+  return { status:response.type, ...submission.reply({resetForm:true}) };
 };
 //Delete employee
 export const deleteEmployee = async (

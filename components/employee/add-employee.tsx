@@ -43,10 +43,10 @@ const AddEmployee: React.FC = () => {
     addEmployee,
     undefined,
   );
-  const transformedResult = lastResult?.type === "validation" ? lastResult : undefined;
+  //const transformedResult = lastResult?.type === "validation" ? lastResult : undefined;
   const [open, setOpen] = useState(false);
   const [form, fields] = useForm({
-    lastResult:transformedResult,
+    lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: employeeSchema });
     },
@@ -55,14 +55,14 @@ const AddEmployee: React.FC = () => {
   });
 
   useEffect(() => {
-    if (lastResult?.type === "success") {
+    if (lastResult?.status === "success") {
       setOpen(false);
-      SuccessToast(lastResult.message || ".تمت الاضافة بنجاح");
+      SuccessToast(".تمت الاضافة بنجاح");
     }
-    if (lastResult?.type === "error") {
-      ErrorToast(lastResult.message || ".حدث خطأ أثناء الاضافة");
+    if (lastResult?.status === "error") {
+      ErrorToast(`${form.errors} .حدث خطأ أثناء الاضافة`);
     }
-  }, [lastResult]);
+  }, [lastResult,form.errors]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -76,7 +76,7 @@ const AddEmployee: React.FC = () => {
           <DialogTitle>اضافة موضف جديد</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-[12px] text-destructive">
-          {lastResult && lastResult.type === "error" && lastResult.message}
+          {form.errors}
         </DialogDescription>
 
         <div className="container mx-auto p-6">
@@ -100,6 +100,7 @@ const AddEmployee: React.FC = () => {
                   id="name"
                   key={fields.name.key}
                   name={fields.name.name}
+                  defaultValue={fields.name.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.name.errors}
@@ -113,6 +114,7 @@ const AddEmployee: React.FC = () => {
                   id="birth_date"
                   key={fields.birth_date.key}
                   name={fields.birth_date.name}
+                  defaultValue={fields.birth_date.value as string}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.birth_date.errors}
@@ -120,7 +122,7 @@ const AddEmployee: React.FC = () => {
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="gender">الجنس</Label>
-                <Select key={fields.gender.key} name={fields.gender.name}>
+                <Select key={fields.gender.key} name={fields.gender.name} defaultValue={fields.gender.value} >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر الجنس" />
                   </SelectTrigger>
@@ -142,6 +144,7 @@ const AddEmployee: React.FC = () => {
                 <Select
                   key={fields.marital_status.key}
                   name={fields.marital_status.name}
+                  defaultValue={fields.marital_status.value}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر الحالة الزوجية" />
@@ -166,6 +169,7 @@ const AddEmployee: React.FC = () => {
                   id="address"
                   key={fields.address.key}
                   name={fields.address.name}
+                  defaultValue={fields.address.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.address.errors}
@@ -178,6 +182,7 @@ const AddEmployee: React.FC = () => {
                   id="mobile"
                   key={fields.mobile.key}
                   name={fields.mobile.name}
+                  defaultValue={fields.mobile.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.mobile.errors}
@@ -190,6 +195,7 @@ const AddEmployee: React.FC = () => {
                   id="emergency_mobile"
                   key={fields.emergency_mobile.key}
                   name={fields.emergency_mobile.name}
+                  defaultValue={fields.emergency_mobile.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.emergency_mobile.errors}
@@ -203,6 +209,7 @@ const AddEmployee: React.FC = () => {
                   id="email"
                   key={fields.email.key}
                   name={fields.email.name}
+                  defaultValue={fields.email.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.email.errors}
@@ -215,6 +222,7 @@ const AddEmployee: React.FC = () => {
                   id="badge_number"
                   key={fields.badge_number.key}
                   name={fields.badge_number.name}
+                  defaultValue={fields.badge_number.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.badge_number.errors}
@@ -228,6 +236,7 @@ const AddEmployee: React.FC = () => {
                   id="hiring_date"
                   key={fields.hiring_date.key}
                   name={fields.hiring_date.name}
+                  defaultValue={fields.hiring_date.value as string}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.hiring_date.errors}
@@ -238,6 +247,7 @@ const AddEmployee: React.FC = () => {
                 <Select
                   key={fields.education_grade.key}
                   name={fields.education_grade.name}
+                  defaultValue={fields.education_grade.value}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  الشهادة" />
@@ -260,6 +270,7 @@ const AddEmployee: React.FC = () => {
                 <Select
                   key={fields.department_id.key}
                   name={fields.department_id.name}
+                  defaultValue={fields.department_id.value}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  القسم" />
@@ -280,6 +291,7 @@ const AddEmployee: React.FC = () => {
                 <Select
                   key={fields.position_id.key}
                   name={fields.position_id.name}
+                  defaultValue={fields.position_id.value}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  الموقع الوظيفي" />
@@ -297,7 +309,7 @@ const AddEmployee: React.FC = () => {
               </div>
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="type">نوع التوظيف</Label>
-                <Select key={fields.type.key} name={fields.type.name}>
+                <Select key={fields.type.key} name={fields.type.name} defaultValue={fields.type.value}>
                   <SelectTrigger>
                     <SelectValue placeholder="اختر  نوع التوظيف" />
                   </SelectTrigger>
@@ -321,6 +333,7 @@ const AddEmployee: React.FC = () => {
                   id="salary"
                   key={fields.salary.key}
                   name={fields.salary.name}
+                  defaultValue={fields.salary.value}
                 />
                 <div className="text-[12px] text-destructive">
                   {fields.salary.errors}

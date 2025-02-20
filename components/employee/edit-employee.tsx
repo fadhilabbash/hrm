@@ -50,12 +50,12 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row }) => {
     editEmployee,
     undefined,
   );
-  const transformedResult = lastResult?.type === "validation" ? lastResult : undefined;
+ 
   const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
   const [open, setOpen] = useState(false);
 
   const [form, fields] = useForm({
-    lastResult:transformedResult,
+    lastResult,
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: employeeSchema });
     },
@@ -63,15 +63,14 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row }) => {
     shouldRevalidate: "onInput",
   });
   useEffect(() => {
-    if (lastResult?.type === "success") {
+    if (lastResult?.status === "success") {
       setOpen(false);
-      SuccessToast(lastResult.message || ".تم التعديل بنجاح");
+      SuccessToast(".تمت الاضافة بنجاح");
     }
-    if (lastResult?.type === "error") {
-      setOpen(false);
-      ErrorToast(lastResult.message || ".حدث خطأ أثناء التعديل");
+    if (lastResult?.status === "error") {
+      ErrorToast(`${form.errors} .حدث خطأ أثناء الاضافة`);
     }
-  }, [lastResult]);
+  }, [lastResult,form.errors]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -86,7 +85,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ row }) => {
           <DialogTitle>تعديل بيانات موظف</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-[12px] text-destructive">
-          {lastResult && lastResult.type === "error" && lastResult.message}
+        {form.errors}
         </DialogDescription>
 
         <div className="container mx-auto p-6">

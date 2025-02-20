@@ -7,19 +7,20 @@ import EditEmployee from "@/components/employee/edit-employee";
 import ViewEmployee from "@/components/employee/view-employee";
 import DeleteAlertDialog from "@/components/common/delete-dialog";
 import { ErrorToast, SuccessToast } from "../common/notification";
-import Image from "next/image";
-import { avatar } from "@/lib/constants";
-import Link from "next/link";
+//import Image from "next/image";
+//import { avatar } from "@/lib/constants";
+//import Link from "next/link";
 import { getEmployeeType } from "@/lib/utils";
 import { deleteEmployee } from "@/services/actions/employees-actions";
 
 // Extend ColumnMeta to include 'displayName'
 declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData, TValue> {
     displayName?: string;
   }
 }
-const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
+//const baseFileUrl = process.env.NEXT_PUBLIC_BASE_FILES_URL;
 
 // Columns definition
 export const tableColumns: ColumnDef<Employee>[] = [
@@ -66,49 +67,49 @@ export const tableColumns: ColumnDef<Employee>[] = [
       return getEmployeeType(row.original.type);
     },
   },
-  {
-    accessorKey: "image",
-    header: "الصورة",
-    meta: { displayName: "الصورة" },
-    cell: ({ row }) => {
-      const imageUrl = row.original.image
-        ? `${baseFileUrl}/${row.original.image}`
-        : avatar;
+  // {
+  //   accessorKey: "image",
+  //   header: "الصورة",
+  //   meta: { displayName: "الصورة" },
+  //   cell: ({ row }) => {
+  //     const imageUrl = row.original.image
+  //       ? `${baseFileUrl}/${row.original.image}`
+  //       : avatar;
 
-      return (
-        <Image
-          src={imageUrl}
-          alt="avatar"
-          className="h-12 w-12 rounded-full object-cover"
-          width={100}
-          height={100}
-        />
-      );
-    },
-  },
-  {
-    accessorKey: "file",
-    header: "الملف",
-    meta: { displayName: "الملف" },
-    cell: ({ row }) => {
-      const fileUrl = row.original.file
-        ? `${baseFileUrl}/${row.original.file}`
-        : null;
+  //     return (
+  //       <Image
+  //         src={imageUrl}
+  //         alt="avatar"
+  //         className="h-12 w-12 rounded-full object-cover"
+  //         width={100}
+  //         height={100}
+  //       />
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: "file",
+  //   header: "الملف",
+  //   meta: { displayName: "الملف" },
+  //   cell: ({ row }) => {
+  //     const fileUrl = row.original.file
+  //       ? `${baseFileUrl}/${row.original.file}`
+  //       : null;
 
-      return fileUrl ? (
-        <Link
-          href={fileUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-md p-2 text-zinc-900 underline hover:text-zinc-700"
-        >
-          المرفقات
-        </Link>
-      ) : (
-        <span className="text-gray-400">لا يوجد ملف</span>
-      );
-    },
-  },
+  //     return fileUrl ? (
+  //       <Link
+  //         href={fileUrl}
+  //         target="_blank"
+  //         rel="noopener noreferrer"
+  //         className="rounded-md p-2 text-zinc-900 underline hover:text-zinc-700"
+  //       >
+  //         المرفقات
+  //       </Link>
+  //     ) : (
+  //       <span className="text-gray-400">لا يوجد ملف</span>
+  //     );
+  //   },
+  // },
   {
     id: "actions",
     header: "الإجراءات",
